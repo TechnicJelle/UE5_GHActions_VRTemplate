@@ -14,6 +14,9 @@ jobs:
       - name: Create directory for mount
         run: mkdir ./ue/
       - name: Mount UE 5.4.4 install from a network drive
-        run: sshfs -o sshfs_debug ${{ secrets.SSHFS_USER }}@technicjelle@stack.technicjelle.com:/ue/Linux_Unreal_Engine_5.4.4/ ./ue/ -o reconnect -o StrictHostKeyChecking=no -o password_stdin <<< '${{ secrets.SSHFS_USER }}'
+        env:
+          USER: ${{ secrets.SSHFS_USER }}
+          PASS: ${{ secrets.SSHFS_USER }}
+        run: sshfs -o sshfs_debug $USER@technicjelle@stack.technicjelle.com:/ue/Linux_Unreal_Engine_5.4.4/ ./ue/ -o reconnect -o StrictHostKeyChecking=no -o password_stdin <<< $PASS
       - name: Tree
         run: tree
