@@ -18,7 +18,7 @@ jobs:
       - name: Mount UE 5.4.4 install from a network drive
         env:
           USER: ${{ secrets.SSHFS_USER }}
-          PASS: ${{ secrets.SSHFS_USER }}
+          PASS: ${{ secrets.SSHFS_PASS }}
         run: |
           echo -n $USER | sha512sum
           echo -n $PASS | sha512sum
