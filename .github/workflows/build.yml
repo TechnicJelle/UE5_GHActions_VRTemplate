@@ -26,7 +26,6 @@ jobs:
           ./ue/
           -o reconnect
           -o StrictHostKeyChecking=no
-          -o default_permissions
           -o password_stdin <<< $PASS
       - name: Create directory for staging files
         run: mkdir ./staging/
