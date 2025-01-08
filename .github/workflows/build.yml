@@ -11,6 +11,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: Install SSHFS
         run: sudo apt install sshfs
+      - name: Setup .NET 6 for UE
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6'
       - name: Create directory for mount
         run: mkdir ./ue/
       - name: Mount UE 5.4.4 install from a network drive
