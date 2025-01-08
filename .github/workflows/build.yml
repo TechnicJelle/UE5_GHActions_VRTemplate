@@ -14,7 +14,7 @@ jobs:
       - name: Setup .NET 6 for UE
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '6'
+          dotnet-version: '6.0.302'
       - name: Create directory for mount
         run: mkdir ./ue/
       - name: Mount UE 5.4.4 install from a network drive
