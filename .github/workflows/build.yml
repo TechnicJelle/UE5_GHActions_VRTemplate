@@ -32,8 +32,8 @@ jobs:
         run: mkdir ./staging/
       - name: Run UE5 build
         run: >
-          bash ./ue/Engine/Build/BatchFiles/RunUAT.sh -ScriptsForProject="./UE5_GHAction_VRTempl.uproject"
-          BuildCookRun -project="./UE5_GHAction_VRTempl.uproject" -noP4
+          bash ./ue/Engine/Build/BatchFiles/RunUAT.sh -ScriptsForProject="$PWD/UE5_GHAction_VRTempl.uproject"
+          BuildCookRun -project="$PWD/UE5_GHAction_VRTempl.uproject" -noP4
           -clientconfig=Shipping -serverconfig=Shipping -nocompile -nocompileeditor -installed
           -unrealexe="./ue/Engine/Binaries/Linux/UnrealEditor-Cmd" -utf8output
           -platform=Linux -build -cook
