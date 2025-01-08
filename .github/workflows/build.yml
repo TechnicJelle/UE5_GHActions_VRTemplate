@@ -26,11 +26,9 @@ jobs:
           -o password_stdin <<< $PASS
       - name: Create directory for staging files
         run: mkdir ./staging/
-      - name: chmod the RunUAT
-        run: chmod +x ./ue/Engine/Build/BatchFiles/RunUAT.sh
       - name: Run UE5 build
         run: >
-          ./ue/Engine/Build/BatchFiles/RunUAT.sh -ScriptsForProject="./UE5_GHAction_VRTempl.uproject"
+          bash ./ue/Engine/Build/BatchFiles/RunUAT.sh -ScriptsForProject="./UE5_GHAction_VRTempl.uproject"
           BuildCookRun -project="./UE5_GHAction_VRTempl.uproject" -noP4
           -clientconfig=Shipping -serverconfig=Shipping -nocompile -nocompileeditor -installed
           -unrealexe="./ue/Engine/Binaries/Linux/UnrealEditor-Cmd" -utf8output
