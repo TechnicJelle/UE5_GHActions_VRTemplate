@@ -20,6 +20,7 @@ jobs:
         run: >
           sshfs $USER@technicjelle@stack.technicjelle.com:/ue/Linux_Unreal_Engine_5.4.4/
           ./ue/
+          -o allow_other
           -o reconnect
           -o StrictHostKeyChecking=no
           -o password_stdin <<< $PASS
