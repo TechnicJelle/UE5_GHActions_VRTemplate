@@ -13,6 +13,8 @@ jobs:
         run: sudo apt install sshfs
       - name: Create directory for mount
         run: mkdir ./ue/
+      - name: Uncomment option 'user_allow_other' in /etc/fuse.conf
+        run: sed -i -E 's/^#\s*(user_allow_other)/\1/' /etc/fuse.conf
       - name: Mount UE 5.4.4 install from a network drive
         env:
           USER: ${{ secrets.SSHFS_USER }}
