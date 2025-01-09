@@ -31,10 +31,10 @@ jobs:
         run: chmod +x $PWD/ue/Engine/Build/BatchFiles/RunUAT.sh
       - name: Run UE5 build
         run: >
-          $PWD/ue/Engine/Build/BatchFiles/RunUAT.sh -ScriptsForProject="$PWD/UE5_GHAction_VRTempl.uproject"
+          /home/$USER/ue/Engine/Build/BatchFiles/RunUAT.sh -ScriptsForProject="$PWD/UE5_GHAction_VRTempl.uproject"
           BuildCookRun -project="$PWD/UE5_GHAction_VRTempl.uproject" -noP4
           -clientconfig=Shipping -serverconfig=Shipping -nocompile -nocompileeditor -installed
-          -unrealexe="$PWD/ue/Engine/Binaries/Linux/UnrealEditor-Cmd" -utf8output
+          -unrealexe="/home/$USER/ue/Engine/Binaries/Linux/UnrealEditor-Cmd" -utf8output
           -platform=Linux -build -cook
           -allmaps -CookCultures=en -unversionedcookedcontent -pak -stage
           -stagingdirectory="$PWD/staging/"
