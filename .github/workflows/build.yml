@@ -8,6 +8,8 @@ jobs:
   build-linux:
     runs-on: ubuntu-latest
     steps:
+      - name: Space used by the docker images
+        run: df -ha /var/lib/docker/
       # Free more space for the UE Docker Image
       - name: Maximize build space
         uses: easimon/maximize-build-space@master
@@ -29,10 +31,14 @@ jobs:
         run: echo $ACCESS_TOKEN | docker login ghcr.io -u $USERNAME --password-stdin
       - name: Docker Pull Prebuilt Container Image
         run: docker pull ghcr.io/epicgames/unreal-engine:dev-slim-5.4.4
+      - name: Space used by the image
+        run: df -ha /var/lib/docker/
       - name: Docker Run
         env:
           PROJECT_PATH: ${{ github.workspace }}
         run: docker run --rm -d --name ue-container -v "$PROJECT_PATH:/project" ghcr.io/epicgames/unreal-engine:dev-slim-5.4.4
+      - name: Docker PS
+        run: docker ps
       - name: Build Project in Development Container
         run: >
           docker exec ue-container /home/ue5/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh 
