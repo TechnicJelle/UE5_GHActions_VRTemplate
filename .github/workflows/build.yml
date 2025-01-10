@@ -24,29 +24,22 @@ jobs:
         run: sudo service docker restart
 
       - uses: actions/checkout@v4
-      - name: Authenticate with GitHub Container Registry
-        env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          USERNAME: ${{ github.repository_owner }}
-        run: echo $ACCESS_TOKEN | docker login ghcr.io -u $USERNAME --password-stdin
-      - name: Docker Pull Prebuilt Container Image
-        run: docker pull ghcr.io/epicgames/unreal-engine:dev-slim-5.4.4
-      - name: Space used by the image
-        run: sudo du -h --max-depth=1 /var/lib/docker/
-      - name: Docker Run
-        env:
-          PROJECT_PATH: ${{ github.workspace }}
-        run: >
-            docker run -it "/home/ue5/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh 
-               BuildCookRun
-               -utf8output
-               -platform=Linux
-               -clientconfig=Shipping
-               -serverconfig=Shipping
-               -project=/project/UE5_GHAction_VRTempl.uproject
-               -noP4 -nodebuginfo -allmaps
-               -cook -build -stage -prereqs -pak -archive
-               -archivedirectory=/project/Packaged"
-            --rm --name ue-container -v "$PROJECT_PATH:/project" ghcr.io/epicgames/unreal-engine:dev-slim-5.4.4
-      - name: Docker PS
-        run: docker ps -a
+
+      - uses: addnab/docker-run-action@v3
+        with:
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.ACCESS_TOKEN }}
+          registry: ghcr.io
+          image: epicgames/unreal-engine:dev-slim-5.4.4
+          options: -v "$PROJECT_PATH:/project"
+          run: >
+            /home/ue5/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh 
+              BuildCookRun
+              -utf8output
+              -platform=Linux
+              -clientconfig=Shipping
+              -serverconfig=Shipping
+              -project=/project/UE5_GHAction_VRTempl.uproject
+              -noP4 -nodebuginfo -allmaps
+              -cook -build -stage -prereqs -pak -archive
+              -archivedirectory=/project/Packaged
