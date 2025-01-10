@@ -29,14 +29,4 @@ jobs:
           registry: ghcr.io/epicgames
           image: unreal-engine:dev-slim-5.4.4
           options: -v "$PROJECT_PATH:/project"
-          run: >
-            /home/ue5/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh 
-            BuildCookRun
-            -utf8output
-            -platform=Linux
-            -clientconfig=Shipping
-            -serverconfig=Shipping
-            -project=/project/UE5_GHAction_VRTempl.uproject
-            -noP4 -nodebuginfo -allmaps
-            -cook -build -stage -prereqs -pak -archive
-            -archivedirectory=/project/Packaged
+          run: tree /home/ -L 4
