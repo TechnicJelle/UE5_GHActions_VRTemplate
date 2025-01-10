@@ -9,9 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Login to ghcr.io Docker Registry
+      - name: Authenticate with GitHub Container Registry
         env:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
         run: echo $ACCESS_TOKEN | docker login ghcr.io -u $USERNAME --password-stdin
+      - name: Pull Prebuilt Container Image
+        run: docker pull ghcr.io/epicgames/unreal-engine:dev-slim-5.4.4
   
