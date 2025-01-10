@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Space used by the docker images
-        run: du -h --max-depth=1 /var/lib/docker/
+        run: sudo du -h --max-depth=1 /var/lib/docker/
       # Free more space for the UE Docker Image
       - name: Maximize build space
         uses: easimon/maximize-build-space@master
@@ -32,7 +32,7 @@ jobs:
       - name: Docker Pull Prebuilt Container Image
         run: docker pull ghcr.io/epicgames/unreal-engine:dev-slim-5.4.4
       - name: Space used by the image
-        run: du -h --max-depth=1 /var/lib/docker/
+        run: sudo du -h --max-depth=1 /var/lib/docker/
       - name: Docker Run
         env:
           PROJECT_PATH: ${{ github.workspace }}
