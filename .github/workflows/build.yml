@@ -9,6 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Setup .NET 6 for UE
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '6.0.302'
       - name: Install SSHFS
         run: sudo apt install sshfs
       - name: Create directory for mount
