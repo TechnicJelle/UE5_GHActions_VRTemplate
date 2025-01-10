@@ -22,11 +22,18 @@ jobs:
         run: sudo service docker restart
 
       - uses: actions/checkout@v4
-      - uses: addnab/docker-run-action@v3
-        with:
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.ACCESS_TOKEN }}
-          registry: ghcr.io
-          image: ghcr.io/epicgames/unreal-engine:dev-slim-5.4.4
-          options: -v ${{ github.workspace }}:/project
-          run: tree /home/ -L 4
+
+      - name: Authenticate with GitHub Container Registry
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          USERNAME: ${{ github.repository_owner }}
+        run: echo $ACCESS_TOKEN | docker login ghcr.io -u $USERNAME --password-stdin
+      - name: Docker Pull Prebuilt Container Image
+        run: docker pull ghcr.io/epicgames/unreal-engine:dev-slim-5.4.4
+
+      - name: Docker Run
+        env:
+          PROJECT_PATH: ${{ github.workspace }}
+          COMMAND: tree /home/ -L 4
+        run: docker run epicgames/unreal-engine:dev-slim-5.4.4 $COMMAND
+  
