@@ -35,5 +35,4 @@ jobs:
         env:
           PROJECT_PATH: ${{ github.workspace }}
           COMMAND: tree /home/ -L 4
-        run: docker run epicgames/unreal-engine:dev-slim-5.4.4 $COMMAND
-  
+        run: docker run ghcr.io/epicgames/unreal-engine:dev-slim-5.4.4 $COMMAND
