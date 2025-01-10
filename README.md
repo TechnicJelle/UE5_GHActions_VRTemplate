@@ -1,3 +1,6 @@
-# UE5_GHAction_VRTempl
+# UE5 VR Template built by GitHub Actions
 
-Developed with Unreal Engine 5
+This is a practise project to get experience with
+setting up GitHub Actions on Unreal Engine projects
+
+Builds on Linux, to Linux and Android.
