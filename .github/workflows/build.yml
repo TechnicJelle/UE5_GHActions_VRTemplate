@@ -27,6 +27,11 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
         run: echo $ACCESS_TOKEN | docker login ghcr.io -u $USERNAME --password-stdin
-      - name: Pull Prebuilt Container Image
+      - name: Docker Pull Prebuilt Container Image
         run: docker pull ghcr.io/epicgames/unreal-engine:dev-slim-5.4.4
-
+      - name: Docker Run
+        env:
+          PROJECT_PATH: ${{ github.workspace }}
+        run: docker run --rm -ti -v "$PROJECT_PATH:/project" ghcr.io/epicgames/unreal-engine:dev-slim-5.4.4
+      - name: Build Project in Development Container
+        run: echo "TODO"
