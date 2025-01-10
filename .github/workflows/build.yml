@@ -32,6 +32,16 @@ jobs:
       - name: Docker Run
         env:
           PROJECT_PATH: ${{ github.workspace }}
-        run: docker run --rm -ti -v "$PROJECT_PATH:/project" ghcr.io/epicgames/unreal-engine:dev-slim-5.4.4
+        run: docker run --rm -d --name ue-container -v "$PROJECT_PATH:/project" ghcr.io/epicgames/unreal-engine:dev-slim-5.4.4
       - name: Build Project in Development Container
-        run: echo "TODO"
+        run: >
+          docker exec ue-container /home/ue5/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh 
+            BuildCookRun
+            -utf8output
+            -platform=Linux
+            -clientconfig=Shipping
+            -serverconfig=Shipping
+            -project=/project/UE5_GHAction_VRTempl.uproject
+            -noP4 -nodebuginfo -allmaps
+            -cook -build -stage -prereqs -pak -archive
+            -archivedirectory=/project/Packaged
