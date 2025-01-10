@@ -31,12 +31,12 @@ jobs:
           options: -v "$PROJECT_PATH:/project"
           run: >
             /home/ue5/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh 
-              BuildCookRun
-              -utf8output
-              -platform=Linux
-              -clientconfig=Shipping
-              -serverconfig=Shipping
-              -project=/project/UE5_GHAction_VRTempl.uproject
-              -noP4 -nodebuginfo -allmaps
-              -cook -build -stage -prereqs -pak -archive
-              -archivedirectory=/project/Packaged
+            BuildCookRun
+            -utf8output
+            -platform=Linux
+            -clientconfig=Shipping
+            -serverconfig=Shipping
+            -project=/project/UE5_GHAction_VRTempl.uproject
+            -noP4 -nodebuginfo -allmaps
+            -cook -build -stage -prereqs -pak -archive
+            -archivedirectory=/project/Packaged
