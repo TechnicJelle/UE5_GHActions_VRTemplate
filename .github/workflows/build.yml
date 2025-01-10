@@ -33,7 +33,7 @@ jobs:
         run: sudo chmod +x /home/$USER/ue/Engine/Build/BatchFiles/RunUAT.sh
       - name: Run UE5 build
         run: >
-          sudo /home/$USER/ue/Engine/Build/BatchFiles/RunUAT.sh -ScriptsForProject="$PWD/UE5_GHAction_VRTempl.uproject"
+          sudo bash /home/$USER/ue/Engine/Build/BatchFiles/RunUAT.sh -ScriptsForProject="$PWD/UE5_GHAction_VRTempl.uproject"
           BuildCookRun -project="$PWD/UE5_GHAction_VRTempl.uproject" -noP4
           -clientconfig=Shipping -serverconfig=Shipping -nocompile -nocompileeditor -installed
           -unrealexe="/home/$USER/ue/Engine/Binaries/Linux/UnrealEditor-Cmd" -utf8output
