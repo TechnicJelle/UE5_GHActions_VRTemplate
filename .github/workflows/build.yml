@@ -9,38 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Setup .NET 6 for UE
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '6.0.302'
-      - name: Install SSHFS
-        run: sudo apt install sshfs
-      - name: Create directory for mount
-        run: |
-          sudo mkdir -m 700 /home/$USER/ue/
-          sudo chown $USER:$USER /home/$USER/ue/
-      - name: Mount UE 5.4.4 install from a network drive
+      - name: Login to ghcr.io Docker Registry
         env:
-          SSHFS_USER: ${{ secrets.SSHFS_USER }}
-          SSHFS_PASS: ${{ secrets.SSHFS_PASS }}
-        run: >
-          sudo sshfs $SSHFS_USER@technicjelle@stack.technicjelle.com:/ue/Linux_Unreal_Engine_5.4.4/
-          /home/$USER/ue/
-          -o reconnect
-          -o StrictHostKeyChecking=no
-          -o password_stdin <<< $SSHFS_PASS
-      - name: List files in UE directory
-        run: sudo ls /home/$USER/ue/
-      - name: Create directory for staging files
-        run: sudo mkdir ./staging/
-      - name: chmod the RunUAT script
-        run: sudo chmod +x /home/$USER/ue/Engine/Build/BatchFiles/RunUAT.sh
-      - name: Run UE5 build
-        run: >
-          sudo bash /home/$USER/ue/Engine/Build/BatchFiles/RunUAT.sh -ScriptsForProject="$PWD/UE5_GHAction_VRTempl.uproject"
-          BuildCookRun -project="$PWD/UE5_GHAction_VRTempl.uproject" -noP4
-          -clientconfig=Shipping -serverconfig=Shipping -nocompile -nocompileeditor -installed
-          -unrealexe="/home/$USER/ue/Engine/Binaries/Linux/UnrealEditor-Cmd" -utf8output
-          -platform=Linux -build -cook
-          -allmaps -CookCultures=en -unversionedcookedcontent -pak -stage
-          -stagingdirectory="$PWD/staging/"
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          USERNAME: ${{ github.repository_owner }}
+        run: echo $ACCESS_TOKEN | docker login ghcr.io -u $USERNAME --password-stdin
+  
