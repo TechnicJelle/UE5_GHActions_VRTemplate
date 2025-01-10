@@ -4,6 +4,9 @@ on:
   push:
   workflow_dispatch:
 
+env:
+  UE_IMAGE_URL: ghcr.io/epicgames/unreal-engine:dev-slim-5.4.4
+
 jobs:
   build-linux:
     runs-on: ubuntu-latest
@@ -29,10 +32,10 @@ jobs:
           USERNAME: ${{ github.repository_owner }}
         run: echo $ACCESS_TOKEN | docker login ghcr.io -u $USERNAME --password-stdin
       - name: Docker Pull Prebuilt Container Image
-        run: docker pull ghcr.io/epicgames/unreal-engine:dev-slim-5.4.4
+        run: docker pull $UE_IMAGE_URL
 
       - name: Docker Run
         env:
           PROJECT_PATH: ${{ github.workspace }}
           COMMAND: ls /home/
-        run: docker run ghcr.io/epicgames/unreal-engine:dev-slim-5.4.4 $COMMAND
+        run: docker run $UE_IMAGE_URL $COMMAND
