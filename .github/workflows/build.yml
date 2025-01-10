@@ -26,7 +26,7 @@ jobs:
         with:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.ACCESS_TOKEN }}
-          registry: ghcr.io/epicgames
-          image: unreal-engine:dev-slim-5.4.4
-          options: -v "$PROJECT_PATH:/project"
+          registry: ghcr.io
+          image: ghcr.io/epicgames/unreal-engine:dev-slim-5.4.4
+          options: -v ${{ github.workspace }}:/project
           run: tree /home/ -L 4
