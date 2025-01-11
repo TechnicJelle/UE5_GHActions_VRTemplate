@@ -16,28 +16,35 @@ jobs:
       - name: Maximize build space action
         uses: easimon/maximize-build-space@master
         with:
-          # build-mount-path: /var/lib/docker/
+          build-mount-path: /var/lib/docker/
           remove-dotnet: 'true'
           remove-android: 'true'
           remove-haskell: 'true'
           remove-codeql: 'true'
           remove-docker-images: 'true'
-      - name: More manual cleanup
+      - name: More manual cleanup by deleting unused software
         run: >
           sudo rm -rf
           "$AGENT_TOOLSDIRECTORY"
           /opt/google/chrome
           /opt/microsoft/msedge
           /opt/microsoft/powershell
+          /opt/hostedtoolcache/CodeQL
           /opt/pipx
+          /opt/ghc
           /usr/lib/mono
+          /usr/local/.ghcup
           /usr/local/julia*
           /usr/local/lib/android
           /usr/local/lib/node_modules
+          /usr/local/share/boost
           /usr/local/share/chromium
           /usr/local/share/powershell
           /usr/share/dotnet
           /usr/share/swift
+      - name: More manual cleanup
+        run: |
+          sudo apt-get clean
       - name: Restart docker
         run: sudo service docker restart
 
