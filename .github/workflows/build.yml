@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
 
 env:
+  PROJECT_PATH: ${{ github.workspace }}
   UE_IMAGE_URL: ghcr.io/epicgames/unreal-engine:dev-slim-5.4.4
 
 jobs:
@@ -34,11 +35,13 @@ jobs:
       - name: Docker Pull Prebuilt Container Image
         run: docker pull $UE_IMAGE_URL
 
-      - name: Docker Run
+      - name: Allow Docker to write to the Project Directory
+        run: sudo chmod -R a+rw $PROJECT_PATH
+
+      - name: Docker Run UE Build
         env:
-          PROJECT_PATH: ${{ github.workspace }}
           COMMAND: /home/ue4/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh BuildCookRun -utf8output -platform=Linux -clientconfig=Shipping -serverconfig=Shipping -project=/project/UE5_GHAction_VRTempl.uproject -noP4 -nodebuginfo -allmaps -cook -build -stage -prereqs -pak -archive -archivedirectory=/project/Packaged
-        run: docker run -v "$PROJECT_PATH:/project:rw" $UE_IMAGE_URL $COMMAND
+        run: docker run -v "$PROJECT_PATH:/project" $UE_IMAGE_URL $COMMAND
 
       - name: ls project directory
         run: ls
