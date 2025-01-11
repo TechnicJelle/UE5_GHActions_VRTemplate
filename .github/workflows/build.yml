@@ -13,15 +13,31 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       # Free more space for the UE Docker Image
-      - name: Maximize build space
+      - name: Maximize build space action
         uses: easimon/maximize-build-space@master
         with:
-          build-mount-path: /var/lib/docker/
+          # build-mount-path: /var/lib/docker/
           remove-dotnet: 'true'
           remove-android: 'true'
           remove-haskell: 'true'
           remove-codeql: 'true'
           remove-docker-images: 'true'
+      - name: More manual cleanup
+        run: >
+          sudo rm -rf
+          "$AGENT_TOOLSDIRECTORY"
+          /opt/google/chrome
+          /opt/microsoft/msedge
+          /opt/microsoft/powershell
+          /opt/pipx
+          /usr/lib/mono
+          /usr/local/julia*
+          /usr/local/lib/android
+          /usr/local/lib/node_modules
+          /usr/local/share/chromium
+          /usr/local/share/powershell
+          /usr/share/dotnet
+          /usr/share/swift
       - name: Restart docker
         run: sudo service docker restart
 
