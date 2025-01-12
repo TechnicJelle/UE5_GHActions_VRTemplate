@@ -63,7 +63,12 @@ jobs:
 
       - name: Docker Run UE Build
         env:
-          COMMAND: /home/ue4/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh BuildCookRun -utf8output -platform=Linux -clientconfig=Shipping -serverconfig=Shipping -project=/project/UE5_GHAction_VRTempl.uproject -noP4 -nodebuginfo -allmaps -cook -build -stage -prereqs -pak -archive -archivedirectory=/project/Packaged
+          COMMAND: >
+            /home/ue4/UnrealEngine/Engine/Build/BatchFiles/RunUAT.sh
+            BuildCookRun -utf8output -platform=Linux -clientconfig=Shipping -serverconfig=Shipping
+            -project=/project/UE5_GHAction_VRTempl.uproject
+            -noP4 -nodebuginfo -allmaps -cook -build -stage -prereqs -pak
+            -archive -archivedirectory=/project/Packaged
         run: docker run -v "$PROJECT_PATH:/project" $UE_IMAGE_URL $COMMAND
 
       - name: Upload a Build Artifact
