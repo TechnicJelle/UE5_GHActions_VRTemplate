@@ -18,8 +18,8 @@ jobs:
         run: sudo apt install rclone
       - name: Create directory for mount
         run: |
-          sudo mkdir -m 700 $RCLONE_MOUNT_POINT
-          sudo chown $USER:$USER $RCLONE_MOUNT_POINT
+          sudo mkdir -m 700 ${{ env.RCLONE_MOUNT_POINT }}
+          sudo chown $USER:$USER ${{ env.RCLONE_MOUNT_POINT }}
       - name: Configure rclone
         env:
           SSHFS_USER: ${{ secrets.SSHFS_USER }}
@@ -34,23 +34,23 @@ jobs:
       - name: Mount UE 5.4.4 install from a network drive
         run: >
           rclone mount $RCLONE_NAME:/ue/Linux_Unreal_Engine_5.4.4/
-          $RCLONE_MOUNT_POINT
+          ${{ env.RCLONE_MOUNT_POINT }}
           --file-perms 0777
           --daemon
       - name: List files in UE directory
-        run: ls $RCLONE_MOUNT_POINT
+        run: ls ${{ env.RCLONE_MOUNT_POINT }}
       - name: Create directory for staging files
-        run: mkdir $STAGING_DIR
+        run: mkdir ${{ env.STAGING_DIR }}
       - name: chmod the RunUAT script
-        run: chmod +x $RCLONE_MOUNT_POINT/Engine/Build/BatchFiles/RunUAT.sh
+        run: chmod +x ${{ env.RCLONE_MOUNT_POINT }}/Engine/Build/BatchFiles/RunUAT.sh
       - name: Run UE5 build
         run: >
-          $RCLONE_MOUNT_POINT/Engine/Build/BatchFiles/RunUAT.sh -ScriptsForProject="$PWD/UE5_GHAction_VRTempl.uproject"
+          ${{ env.RCLONE_MOUNT_POINT }}/Engine/Build/BatchFiles/RunUAT.sh -ScriptsForProject="$PWD/UE5_GHAction_VRTempl.uproject"
           BuildCookRun -project="$PWD/UE5_GHAction_VRTempl.uproject" -noP4
           -clientconfig=Shipping -serverconfig=Shipping -nocompile -nocompileeditor -installed
-          -unrealexe="$RCLONE_MOUNT_POINT/Engine/Binaries/Linux/UnrealEditor-Cmd" -utf8output
+          -unrealexe="${{ env.RCLONE_MOUNT_POINT }}/Engine/Binaries/Linux/UnrealEditor-Cmd" -utf8output
           -platform=Linux -build -cook
           -allmaps -CookCultures=en -unversionedcookedcontent -pak -stage
-          -stagingdirectory="$STAGING_DIR"
+          -stagingdirectory="${{ env.STAGING_DIR }}"
       - name: Unmount the network drive
-        run: fusermount -u $RCLONE_MOUNT_POINT
+        run: fusermount -u ${{ env.RCLONE_MOUNT_POINT }}
