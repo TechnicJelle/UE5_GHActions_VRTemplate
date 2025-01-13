@@ -21,6 +21,7 @@ jobs:
           SSHFS_PASS: ${{ secrets.SSHFS_PASS }}
         run: >
           rclone config create stack sftp
+          --obscure
           host=stack.technicjelle.com
           user=$SSHFS_USER
           pass=$SSHFS_PASS
