@@ -48,3 +48,5 @@ jobs:
           -platform=Linux -build -cook
           -allmaps -CookCultures=en -unversionedcookedcontent -pak -stage
           -stagingdirectory="$PWD/staging/"
+      - name: Unmount the network drive
+        run: fusermount -u /home/$USER/ue/
