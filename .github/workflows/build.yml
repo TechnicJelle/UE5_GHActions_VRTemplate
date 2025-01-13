@@ -30,6 +30,7 @@ jobs:
         run: >
           rclone mount stack:/ue/Linux_Unreal_Engine_5.4.4/
           /home/$USER/ue/
+          --vfs-cache-mode minimal
           --daemon
       - name: List files in UE directory
         run: ls /home/$USER/ue/
