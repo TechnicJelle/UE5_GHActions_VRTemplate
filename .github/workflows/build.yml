@@ -35,6 +35,7 @@ jobs:
         run: >
           rclone mount $RCLONE_NAME:/ue/Linux_Unreal_Engine_5.4.4/
           $RCLONE_MOUNT_POINT
+          --file-perms 0777
           --daemon
       - name: List files in UE directory
         run: ls $RCLONE_MOUNT_POINT
