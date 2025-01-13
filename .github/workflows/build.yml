@@ -4,6 +4,11 @@ on:
   push:
   workflow_dispatch:
 
+env:
+  RCLONE_NAME: stack
+  RCLONE_MOUNT_POINT: /home/$USER/ue
+  STAGING_DIR: $PWD/staging
+
 jobs:
   build-linux:
     runs-on: ubuntu-latest
@@ -13,14 +18,14 @@ jobs:
         run: sudo apt install rclone
       - name: Create directory for mount
         run: |
-          sudo mkdir -m 700 /home/$USER/ue/
-          sudo chown $USER:$USER /home/$USER/ue/
+          sudo mkdir -m 700 $RCLONE_MOUNT_POINT
+          sudo chown $USER:$USER $RCLONE_MOUNT_POINT
       - name: Configure rclone
         env:
           SSHFS_USER: ${{ secrets.SSHFS_USER }}
           SSHFS_PASS: ${{ secrets.SSHFS_PASS }}
         run: >
-          rclone config create stack sftp
+          rclone config create $RCLONE_NAME sftp
           --obscure
           host=stack.technicjelle.com
           user=$SSHFS_USER
@@ -28,23 +33,23 @@ jobs:
           shell_type=unix
       - name: Mount UE 5.4.4 install from a network drive
         run: >
-          rclone mount stack:/ue/Linux_Unreal_Engine_5.4.4/
-          /home/$USER/ue/
+          rclone mount $RCLONE_NAME:/ue/Linux_Unreal_Engine_5.4.4/
+          $RCLONE_MOUNT_POINT
           --daemon
       - name: List files in UE directory
-        run: ls /home/$USER/ue/
+        run: ls $RCLONE_MOUNT_POINT
       - name: Create directory for staging files
-        run: mkdir ./staging/
+        run: mkdir $STAGING_DIR
       - name: chmod the RunUAT script
-        run: chmod +x /home/$USER/ue/Engine/Build/BatchFiles/RunUAT.sh
+        run: chmod +x $RCLONE_MOUNT_POINT/Engine/Build/BatchFiles/RunUAT.sh
       - name: Run UE5 build
         run: >
-          /home/$USER/ue/Engine/Build/BatchFiles/RunUAT.sh -ScriptsForProject="$PWD/UE5_GHAction_VRTempl.uproject"
+          $RCLONE_MOUNT_POINT/Engine/Build/BatchFiles/RunUAT.sh -ScriptsForProject="$PWD/UE5_GHAction_VRTempl.uproject"
           BuildCookRun -project="$PWD/UE5_GHAction_VRTempl.uproject" -noP4
           -clientconfig=Shipping -serverconfig=Shipping -nocompile -nocompileeditor -installed
-          -unrealexe="/home/$USER/ue/Engine/Binaries/Linux/UnrealEditor-Cmd" -utf8output
+          -unrealexe="$RCLONE_MOUNT_POINT/Engine/Binaries/Linux/UnrealEditor-Cmd" -utf8output
           -platform=Linux -build -cook
           -allmaps -CookCultures=en -unversionedcookedcontent -pak -stage
-          -stagingdirectory="$PWD/staging/"
+          -stagingdirectory="$STAGING_DIR"
       - name: Unmount the network drive
-        run: fusermount -u /home/$USER/ue/
+        run: fusermount -u $RCLONE_MOUNT_POINT
