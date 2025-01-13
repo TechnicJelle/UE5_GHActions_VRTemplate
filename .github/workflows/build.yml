@@ -32,11 +32,11 @@ jobs:
           /home/$USER/ue/
           --daemon
       - name: List files in UE directory
-        run: sudo ls /home/$USER/ue/
+        run: ls /home/$USER/ue/
       - name: Create directory for staging files
-        run: sudo mkdir ./staging/
+        run: mkdir ./staging/
       - name: chmod the RunUAT script
-        run: sudo chmod +x /home/$USER/ue/Engine/Build/BatchFiles/RunUAT.sh
+        run: chmod +x /home/$USER/ue/Engine/Build/BatchFiles/RunUAT.sh
       - name: Run UE5 build
         run: >
           /home/$USER/ue/Engine/Build/BatchFiles/RunUAT.sh -ScriptsForProject="$PWD/UE5_GHAction_VRTempl.uproject"
