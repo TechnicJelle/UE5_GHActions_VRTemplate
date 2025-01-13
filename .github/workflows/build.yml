@@ -9,22 +9,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install SSHFS
-        run: sudo apt install sshfs
+      - name: Install rclone
+        run: sudo apt install rclone
       - name: Create directory for mount
         run: |
           sudo mkdir -m 700 /home/$USER/ue/
           sudo chown $USER:$USER /home/$USER/ue/
-      - name: Mount UE 5.4.4 install from a network drive
+      - name: Configure rclone
         env:
           SSHFS_USER: ${{ secrets.SSHFS_USER }}
           SSHFS_PASS: ${{ secrets.SSHFS_PASS }}
         run: >
-          sudo sshfs $SSHFS_USER@technicjelle@stack.technicjelle.com:/ue/Linux_Unreal_Engine_5.4.4/
+          rclone config create stack sftp
+          host=stack.technicjelle.com
+          user=$SSHFS_USER
+          pass=$SSHFS_PASS
+          shell_type=unix
+      - name: Mount UE 5.4.4 install from a network drive
+        run: >
+          rclone mount stack:/ue/Linux_Unreal_Engine_5.4.4/
           /home/$USER/ue/
-          -o reconnect
-          -o StrictHostKeyChecking=no
-          -o password_stdin <<< $SSHFS_PASS
+          --daemon
       - name: List files in UE directory
         run: sudo ls /home/$USER/ue/
       - name: Create directory for staging files
@@ -33,7 +38,7 @@ jobs:
         run: sudo chmod +x /home/$USER/ue/Engine/Build/BatchFiles/RunUAT.sh
       - name: Run UE5 build
         run: >
-          sudo bash /home/$USER/ue/Engine/Build/BatchFiles/RunUAT.sh -ScriptsForProject="$PWD/UE5_GHAction_VRTempl.uproject"
+          /home/$USER/ue/Engine/Build/BatchFiles/RunUAT.sh -ScriptsForProject="$PWD/UE5_GHAction_VRTempl.uproject"
           BuildCookRun -project="$PWD/UE5_GHAction_VRTempl.uproject" -noP4
           -clientconfig=Shipping -serverconfig=Shipping -nocompile -nocompileeditor -installed
           -unrealexe="/home/$USER/ue/Engine/Binaries/Linux/UnrealEditor-Cmd" -utf8output
