@@ -8,7 +8,6 @@ env:
   RCLONE_NAME: stack
   RCLONE_MOUNT_POINT: /home/$USER/ue
   STAGING_DIR: $PWD/staging
-  DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
 
 jobs:
   build-linux:
