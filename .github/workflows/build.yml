@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install rclone & other necessary packages
-        run: sudo apt install rclone libicu-dev
+        run: sudo apt install rclone libicu-dev libicu64
       - name: Create directory for mount
         run: |
           sudo mkdir -m 700 ${{ env.RCLONE_MOUNT_POINT }}
