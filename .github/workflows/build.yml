@@ -20,7 +20,7 @@ jobs:
       - name: Add webdav to fstab
         run: echo "https://stack.technicjelle.com/remote.php/webdav /home/$USER/ue/ davfs rw,user,uid=$USER,noauto 0 0" | sudo tee -a /etc/fstab
       - name: Set up davfs2 secrets files
-        run: >
+        run: |
           sudo mkdir -m 755 /home/$USER/.davfs2
           sudo cp /etc/davfs2/secrets /home/$USER/.davfs2
           sudo chown -R $USER:$USER /home/$USER/.davfs2
