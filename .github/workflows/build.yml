@@ -9,22 +9,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install SSHFS
-        run: sudo apt install sshfs
+      - name: Install davfs2
+        run: sudo apt install davfs2
+      - name: Add user to davfs2 group
+        run: sudo usermod -aG davfs2 $USER
       - name: Create directory for mount
         run: |
           sudo mkdir -m 700 /home/$USER/ue/
           sudo chown $USER:$USER /home/$USER/ue/
-      - name: Mount UE 5.4.4 install from a network drive
-        env:
-          SSHFS_USER: ${{ secrets.SSHFS_USER }}
-          SSHFS_PASS: ${{ secrets.SSHFS_PASS }}
+      - name: Add webdav to fstab
+        run: echo "https://stack.technicjelle.com/remote.php/webdav /home/$USER/ue/ davfs rw,user,uid=$USER,noauto 0 0" | sudo tee -a /etc/fstab
+      - name: Set up davfs2 secrets files
         run: >
-          sudo sshfs $SSHFS_USER@technicjelle@stack.technicjelle.com:/ue/Linux_Unreal_Engine_5.4.4/
-          /home/$USER/ue/
-          -o reconnect
-          -o StrictHostKeyChecking=no
-          -o password_stdin <<< $SSHFS_PASS
+          sudo mkdir -m 755 /home/$USER/.davfs2
+          sudo cp /etc/davfs2/secrets /home/$USER/.davfs2
+          sudo chown -R $USER:$USER /home/$USER/.davfs2
+      - name: Add webdav credentials to secrets file
+        env:
+          WEBDAV_USER: ${{ secrets.WEBDAV_USER }}
+          WEBDAV_PASS: ${{ secrets.WEBDAV_PASS }}
+        run: echo "https://stack.technicjelle.com/remote.php/webdav $WEBDAV_USER $WEBDAV_PASS" | sudo tee -a /home/$USER/.davfs2/secrets
+      - name: Mount UE 5.4.4 install from a network drive
+        run: mount /home/$USER/ue/
       - name: List files in UE directory
         run: sudo ls /home/$USER/ue/
       - name: Create directory for staging files
