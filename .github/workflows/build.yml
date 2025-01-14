@@ -14,8 +14,8 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v4
-      - name: Install rclone
-        run: sudo apt install rclone
+      - name: Install rclone & other necessary packages
+        run: sudo apt install rclone libicu-dev
       - name: Create directory for mount
         run: |
           sudo mkdir -m 700 ${{ env.RCLONE_MOUNT_POINT }}
