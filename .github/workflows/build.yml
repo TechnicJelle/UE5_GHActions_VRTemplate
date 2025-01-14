@@ -8,6 +8,7 @@ env:
   RCLONE_NAME: stack
   RCLONE_MOUNT_POINT: /home/$USER/ue
   STAGING_DIR: $PWD/staging
+  DOTNET_SYSTEM_GLOBALIZATION_INVARIANT: 1
 
 jobs:
   build-linux:
@@ -15,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install rclone & other necessary packages
-        run: sudo apt install rclone libicu-dev libicu66
+        run: sudo apt install rclone libicu-dev
       - name: Create directory for mount
         run: |
           sudo mkdir -m 700 ${{ env.RCLONE_MOUNT_POINT }}
