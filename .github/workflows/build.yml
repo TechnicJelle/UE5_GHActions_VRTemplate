@@ -57,5 +57,8 @@ jobs:
           -platform=Linux -build -cook
           -allmaps -CookCultures=en -unversionedcookedcontent -pak -stage
           -stagingdirectory="${{ env.STAGING_DIR }}"
+      - name: Print extra log
+        if: success() || failure()
+        run: cat $PWD/Library/Logs/Unreal Engine/LocalBuildLogs/Log.txt
       - name: Unmount the network drive
         run: fusermount -u ${{ env.RCLONE_MOUNT_POINT }}
