@@ -4,6 +4,10 @@ on:
   push:
   workflow_dispatch:
 
+env:
+  MOUNT_POINT: /home/$USER/ue
+  WEBDAV_URL: https://stack.technicjelle.com/remote.php/webdav
+
 jobs:
   build-linux:
     runs-on: ubuntu-latest
@@ -15,10 +19,10 @@ jobs:
         run: sudo usermod -aG davfs2 $USER
       - name: Create directory for mount
         run: |
-          sudo mkdir -m 700 /home/$USER/ue/
-          sudo chown $USER:$USER /home/$USER/ue/
+          sudo mkdir -m 700 ${{ env.MOUNT_POINT }}
+          sudo chown $USER:$USER ${{ env.MOUNT_POINT }}
       - name: Add webdav to fstab
-        run: echo "https://stack.technicjelle.com/remote.php/webdav /home/$USER/ue/ davfs rw,user,uid=$USER,noauto 0 0" | sudo tee -a /etc/fstab
+        run: echo "${{ env.WEBDAV_URL }} ${{ env.MOUNT_POINT }} davfs rw,user,uid=$USER,noauto 0 0" | sudo tee -a /etc/fstab
       - name: Set up davfs2 secrets files
         run: |
           sudo mkdir -m 755 /home/$USER/.davfs2
@@ -28,21 +32,21 @@ jobs:
         env:
           WEBDAV_USER: ${{ secrets.WEBDAV_USER }}
           WEBDAV_PASS: ${{ secrets.WEBDAV_PASS }}
-        run: echo "https://stack.technicjelle.com/remote.php/webdav $WEBDAV_USER $WEBDAV_PASS" | sudo tee -a /home/$USER/.davfs2/secrets
+        run: echo "${{ env.WEBDAV_URL }} $WEBDAV_USER $WEBDAV_PASS" | sudo tee -a /home/$USER/.davfs2/secrets
       - name: Mount UE 5.4.4 install from a network drive
-        run: mount /home/$USER/ue/
+        run: mount ${{ env.MOUNT_POINT }}
       - name: List files in UE directory
-        run: sudo ls /home/$USER/ue/
+        run: ls ${{ env.MOUNT_POINT }}
       - name: Create directory for staging files
-        run: sudo mkdir ./staging/
+        run: mkdir ./staging/
       - name: chmod the RunUAT script
-        run: sudo chmod +x /home/$USER/ue/Engine/Build/BatchFiles/RunUAT.sh
+        run: chmod +x ${{ env.MOUNT_POINT }}/Engine/Build/BatchFiles/RunUAT.sh
       - name: Run UE5 build
         run: >
-          sudo bash /home/$USER/ue/Engine/Build/BatchFiles/RunUAT.sh -ScriptsForProject="$PWD/UE5_GHAction_VRTempl.uproject"
+          ${{ env.MOUNT_POINT }}/Engine/Build/BatchFiles/RunUAT.sh -ScriptsForProject="$PWD/UE5_GHAction_VRTempl.uproject"
           BuildCookRun -project="$PWD/UE5_GHAction_VRTempl.uproject" -noP4
           -clientconfig=Shipping -serverconfig=Shipping -nocompile -nocompileeditor -installed
-          -unrealexe="/home/$USER/ue/Engine/Binaries/Linux/UnrealEditor-Cmd" -utf8output
+          -unrealexe="${{ env.MOUNT_POINT }}/Engine/Binaries/Linux/UnrealEditor-Cmd" -utf8output
           -platform=Linux -build -cook
           -allmaps -CookCultures=en -unversionedcookedcontent -pak -stage
           -stagingdirectory="$PWD/staging/"
