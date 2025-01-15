@@ -31,8 +31,6 @@ jobs:
           user=$WEBDAV_USER
           pass=$WEBDAV_PASS
           vendor=other
-      - name: Print rclone config
-        run: cat $(rclone config file)
       - name: List rclone remotes
         run: rclone listremotes
       - name: List rclone directories
