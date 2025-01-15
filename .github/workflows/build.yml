@@ -34,7 +34,7 @@ jobs:
       - name: List rclone remotes
         run: rclone listremotes
       - name: List rclone directories
-        run: rclone lsd stack-weaving-webdav:/
+        run: rclone lsd $RCLONE_NAME:/
       - name: Mount UE 5.4.4 install from a network drive
         run: >
           rclone mount $RCLONE_NAME:/ue/Linux_Unreal_Engine_5.4.4/
