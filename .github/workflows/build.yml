@@ -27,10 +27,10 @@ jobs:
         run: >
           rclone config create $RCLONE_NAME webdav
           --obscure
-          url=https://stack.technicjelle.com/remote.php/webdav
-          user=$SSHFS_USER
-          pass=$SSHFS_PASS
-          vendor=other
+          --webdav-url https://stack.technicjelle.com/remote.php/webdav
+          --webdav-user $SSHFS_USER
+          --webdav-pass $SSHFS_PASS
+          --webdav-vendor other
       - name: Mount UE 5.4.4 install from a network drive
         run: >
           rclone mount $RCLONE_NAME:/ue/Linux_Unreal_Engine_5.4.4/
