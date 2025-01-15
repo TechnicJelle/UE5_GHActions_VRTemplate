@@ -27,10 +27,10 @@ jobs:
         run: >
           rclone config create $RCLONE_NAME webdav
           --obscure
-          --webdav-url https://stack.technicjelle.com/remote.php/webdav
-          --webdav-user $SSHFS_USER
-          --webdav-pass $SSHFS_PASS
-          --webdav-vendor other
+          url=https://stack.technicjelle.com/remote.php/webdav
+          user=$SSHFS_USER
+          pass=$SSHFS_PASS
+          vendor=other
       - name: Print rclone config
         run: cat $(rclone config file)
       - name: List rclone remotes
