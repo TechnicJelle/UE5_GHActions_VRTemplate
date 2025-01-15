@@ -11,26 +11,26 @@ env:
 
 jobs:
   build-linux:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install rclone & other necessary packages
-        run: sudo apt install rclone libicu-dev
+      - name: Install rclone
+        run: sudo apt install rclone
       - name: Create directory for mount
         run: |
           sudo mkdir -m 700 ${{ env.RCLONE_MOUNT_POINT }}
           sudo chown $USER:$USER ${{ env.RCLONE_MOUNT_POINT }}
       - name: Configure rclone
         env:
-          SSHFS_USER: ${{ secrets.SSHFS_USER }}
-          SSHFS_PASS: ${{ secrets.SSHFS_PASS }}
+          WEBDAV_USER: ${{ secrets.WEBDAV_USER }}
+          WEBDAV_PASS: ${{ secrets.WEBDAV_PASS }}
         run: >
-          rclone config create $RCLONE_NAME sftp
+          rclone config create $RCLONE_NAME webdav
           --obscure
-          host=stack.technicjelle.com
+          url=https://stack.technicjelle.com/remote.php/webdav
           user=$SSHFS_USER
           pass=$SSHFS_PASS
-          shell_type=unix
+          vendor=other
       - name: Mount UE 5.4.4 install from a network drive
         run: >
           rclone mount $RCLONE_NAME:/ue/Linux_Unreal_Engine_5.4.4/
