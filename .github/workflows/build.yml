@@ -40,7 +40,7 @@ jobs:
           rclone mount $RCLONE_NAME:/ue/Linux_Unreal_Engine_5.4.4/
           ${{ env.RCLONE_MOUNT_POINT }}
           --file-perms 0777
-          --vfs-cache-mode writes
+          --vfs-cache-mode full
           --daemon
       - name: List files in UE directory
         run: ls ${{ env.RCLONE_MOUNT_POINT }}
