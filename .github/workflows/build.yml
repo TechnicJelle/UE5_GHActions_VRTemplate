@@ -28,8 +28,8 @@ jobs:
           rclone config create $RCLONE_NAME webdav
           --obscure
           url=https://stack.technicjelle.com/remote.php/webdav
-          user=$SSHFS_USER
-          pass=$SSHFS_PASS
+          user=WEBDAV_USER
+          pass=WEBDAV_PASS
           vendor=other
       - name: Print rclone config
         run: cat $(rclone config file)
