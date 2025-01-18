@@ -5,7 +5,7 @@ Every computer has a name. This makes it recognisable in lists with many compute
 Please make sure that your computer name is recognisably yours.
 
 You can check your computer name here:
-0. In the Settings app on your Windows device, select **System** > **About**
+1. In the Settings app on your Windows device, select **System** > **About**
 
 If it's something like "COMPUTER-12AB3", please rename it like this:
 1. Select **Rename this PC**
@@ -14,64 +14,64 @@ If it's something like "COMPUTER-12AB3", please rename it like this:
 
 ## Tailscale
 Tailscale is the program you will be using to connect to the server computer.
-0. Download Tailscale from here: https://tailscale.com/download
-1. Download and run the installer
-2. In the system tray of your computer (bottom right), click the Tailscale icon, and authenticate in your browser.
+1. Download Tailscale from here: https://tailscale.com/download
+2. Download and run the installer
+3. In the system tray of your computer (bottom right), click the Tailscale icon, and authenticate in your browser.  
    (You may need to click the arrow Λ)
-3. Log in via the team-shared Google account (the credentials are in our team-shared Notion)
-4. Once you're logged in, you should see a web page with a list of the machines. You can now close the tab.
-5. Right click the Tailscale icon in your system tray, and go to **Network devices** > **My Devices**
+4. Log in via the team-shared Google account (the credentials are in our team-shared Notion)
+5. Once you're logged in, you should see a web page with a list of the machines. You can now close the tab.
+6. Right click the Tailscale icon in your system tray, and go to **Network devices** > **My Devices**
    and make sure you see `saxion-desktop-windows` in that list.
    (You don't have to click it. Just make sure it's there.)
 
 ## P4V
 P4V is the program you will be using to check out files from the server,
 and send them back to the server once you're done with them.
-0. Download it from here: https://www.perforce.com/downloads/helix-visual-client-p4v
+1. Download it from here: https://www.perforce.com/downloads/helix-visual-client-p4v
    (get the EXE version, not the MSI version) and run the downloaded executable
-1. Make sure to install `P4V`, `P4Merge` and `P4`. You don't need `P4Admin`, though.  
+2. Make sure to install `P4V`, `P4Merge` and `P4`. You don't need `P4Admin`, though.  
    ![](assets/Helix_Install_Instructions_1.png)
-2. In the **Server** field, fill in this: `saxion-desktop-windows:1666`.  
+3. In the **Server** field, fill in this: `saxion-desktop-windows:1666`.  
    This is a direct connection to the server computer at Saxion that Tailscale makes possible for us! :)  
    In the **User Name** field, fill in your first name, with a capital first letter.  
    You can set a different text editor here, if you like. I personally recommend [Notepad++](https://notepad-plus-plus.org/).  
    ![](assets/Helix_Install_Instructions_2.png)
-3. Wait...  
+4. Wait...  
    While it is installing, you can watch this video:
    https://www.youtube.com/watch?v=jIQEjDiSe0g  
    ![](assets/Helix_Install_Instructions_3.png)
-4. Leave the checkbox in front of **Start P4V** enabled, and click **Exit**.
-5. P4V will now open and show an **Open Connection** dialog.
+5. Leave the checkbox in front of **Start P4V** enabled, and click **Exit**.
+6. P4V will now open and show an **Open Connection** dialog.
    The **Server** and **User** should be the same as you filled in during the installation.  
    ![](assets/Helix_Install_Instructions_4.png)
-6. You probably don't actually have an account yet.
+7. You probably don't actually have an account yet.
    You can check that by clicking the **Browse** button next to the `User` field.  
    ![](assets/Helix_Install_Instructions_5.png)
-7. You can click the **Cancel** button to close the new `Select User` window again.
-8. Now click the **New** button next to the `User` field.
-9. Fill in your full name, choose a strong password and use your Saxion email.  
+8. You can click the **Cancel** button to close the new `Select User` window again.
+9. Now click the **New** button next to the `User` field.
+10. Fill in your full name, choose a strong password and use your Saxion email.  
    ![](assets/Helix_Install_Instructions_6.png)
-10. If you check the **Browse** now, you should see your newly made account there.
-11. Click **Ok**, and now the full P4V should open.
-12. It will ask you if it may check for updates. I recommend saying **Yes**
-13. It will also ask you if it can collect some anonymous usage statistics.
+11. If you check the **Browse** now, you should see your newly made account there.
+12. Click **Ok**, and now the full P4V should open.
+13. It will ask you if it may check for updates. I recommend saying **Yes**
+14. It will also ask you if it can collect some anonymous usage statistics.
     I will not make a recommendation for what you should choose here.
-14. You will now see two things in the **Depot** screen on the left.
+15. You will now see two things in the **Depot** screen on the left.
     The legacy project is the files we got from the previous team,
     and the new project is the clean slate that we're starting from.
-15. If you haven't, yet, please watch the video linked in step 3.
-16. And here is a cheat-sheet for P4V that shows the most important buttons and icons:
+16. If you haven't, yet, please watch the video linked in step 3.
+17. And here is a cheat-sheet for P4V that shows the most important buttons and icons:
     https://www.perforce.com/sites/default/files/pdfs/perforce-helix-cheatsheet.pdf
-17. Now, close P4V.
-18. Right click on the Windows start button, and select **Windows PowerShell**  (admin should not be necessary)
-19. A black or blue screen with white text should now pop up. Do not be afraid.
-20. Copy&paste this line into it:
+18. Now, close P4V.
+19. Right click on the Windows start button, and select **Windows PowerShell**  (admin should not be necessary)
+20. A black or blue screen with white text should now pop up. Do not be afraid.
+21. Copy&paste this line into it:
     ```
     p4 set P4IGNORE=.p4ignore
     ```
-21. And then press enter.  
+22. And then press enter.  
     ![](assets/Helix_Install_Instructions_7.png)
-22. You can close the PowerShell window again.
+23. You can close the PowerShell window again.
 
 P4V has now been installed! :D
 
@@ -82,10 +82,10 @@ Using this workspace, you can add new files to the server, edit existing files,
 get the latest changes from others, or go back to previous versions of files.
 
 ### Creating workspace
-0. Open P4V again
-1. Open the **Stream Graph** panel in the right panel
-2. Select the depot of the project you want to work on
-3. Right click on the `main` stream and select **New Workspace…**
+1. Open P4V again
+2. Open the **Stream Graph** panel in the right panel
+3. Select the depot of the project you want to work on
+4. Right click on the `main` stream and select **New Workspace…**
 
 ![](assets/Create_a_Workspace_1.webp)
 
