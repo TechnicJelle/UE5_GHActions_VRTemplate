@@ -19,4 +19,4 @@ Until then, at least the Linux build works!
 
 In the [`docs`](docs) directory of this repository, I also have a guide that I wrote for my team this project was for.  
 It explains how to set up their development environment with Perforce and Unreal Engine.  
-[>Click here to read it<](docs/Perforce%20Setup%20Guide%20for%20Users.md)
+[>Click here to read it<](docs/Perforce%20Setup%20Guide%20for%20Users)
